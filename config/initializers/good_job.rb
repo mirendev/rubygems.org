@@ -8,7 +8,7 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   config.good_job.shutdown_timeout = 25 # seconds
   config.good_job.logger = SemanticLogger[GoodJob]
 
-  config.good_job.enable_cron = !Rails.env.development?
+  config.good_job.enable_cron = !Rails.env.development? && !Rails.env.preview?
   config.good_job.cron = {
     good_job_statsd: {
       cron: "every 15s",

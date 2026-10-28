@@ -20,6 +20,15 @@ test:
   s3_endpoint: s3.amazonaws.com
   versions_file_location_v2: "./test/helpers/versions_v2.list"
 
+preview:
+  protocol: https
+  host: <%= ENV.fetch("APP_HOST") { "localhost" } %>
+  host_display: RubyGems.org Preview
+  s3_bucket: preview-gems
+  s3_contents_bucket: preview-contents
+  s3_compact_index_bucket: preview-compact-index
+  versions_file_location_v2: "./config/versions_v2.list"
+
 staging:
   protocol: https
   host: staging.rubygems.org

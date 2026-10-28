@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# Public previews must not contain the development accounts with known passwords.
+return if Rails.env.preview?
+
 password = "super-secret-password"
 
 # "rubygems" is a reserved handle (see Organization::Handle), so the seed

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-return if Rails.env.local? # Don't enable Honeybadger in local Development & Test environments
+return if Rails.env.local? || Rails.env.preview? # Don't report from development, test, or previews
 
 Rails.logger.silence(:error) do
   require "honeybadger"

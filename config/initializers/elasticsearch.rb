@@ -3,13 +3,16 @@
 require 'faraday_middleware/aws_sigv4'
 require 'opensearch-dsl'
 
+# Cloned preview databases must not overwrite each other's search documents.
+Searchkick.index_prefix = ENV.fetch("PGDATABASE") if Rails.env.preview?
+
 options = {}
 
 options[:url] = ENV['ELASTICSEARCH_URL'] || 'http://localhost:9200'
 options[:tracer] = SemanticLogger[OpenSearch::Client]
 
 Searchkick.client = OpenSearch::Client.new(**options.compact) do |f|
-  unless Rails.env.local?
+  unless Rails.env.local? || Rails.env.preview?
     f.request :aws_sigv4,
       service: 'es',
       region: ENV['AWS_REGION'],

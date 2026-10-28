@@ -5,7 +5,7 @@ require "aws-sdk-s3"
 module RubygemFs
   def self.instance
     @fs ||=
-      if Rails.env.development?
+      if Rails.env.development? || Rails.env.preview?
         RubygemFs::Local.new
       else
         RubygemFs::S3.new

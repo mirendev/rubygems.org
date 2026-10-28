@@ -1,0 +1,73 @@
+name = "rubygems"
+include = ["config/rubygems.yml"]
+
+[build]
+dockerfile = "Dockerfile"
+
+[[env]]
+key = "RAILS_ENV"
+value = "preview"
+
+[[env]]
+key = "APP_HOST"
+value = "rubygems.cluster-2wh7n1wappef.miren.systems"
+
+[[env]]
+key = "RAILS_SERVE_STATIC_FILES"
+value = "true"
+
+[[env]]
+key = "WEB_CONCURRENCY"
+value = "1"
+
+[[env]]
+key = "DISABLE_SIGNUP"
+value = "true"
+
+[[env]]
+key = "ELASTICSEARCH_URL"
+value = "http://search.app.miren:9200"
+
+[[env]]
+key = "SECRET_KEY_BASE"
+required = true
+sensitive = true
+
+[services.web]
+command = "sh bin/miren-web"
+port = 3000
+port_timeout = "90s"
+
+[services.web.concurrency]
+mode = "fixed"
+num_instances = 1
+
+# Previews run only web and share the search service, with database-specific indexes.
+[services.search]
+image = "opensearchproject/opensearch:2.13.0"
+command = "cd /usr/share/opensearch && exec ./opensearch-docker-entrypoint.sh opensearch"
+port = 9200
+port_type = "tcp"
+port_timeout = "3m"
+
+[[services.search.env]]
+key = "discovery.type"
+value = "single-node"
+
+[[services.search.env]]
+key = "DISABLE_SECURITY_PLUGIN"
+value = "true"
+
+[[services.search.env]]
+key = "OPENSEARCH_JAVA_OPTS"
+value = "-Xms512m -Xmx512m"
+
+[services.search.concurrency]
+mode = "fixed"
+num_instances = 1
+
+[addons.miren-postgresql]
+variant = "shared"
+version = "18"
+clone = true
+clone_variant = "shared"

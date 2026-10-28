@@ -24,6 +24,13 @@ test:
     timeout: 5000
     gssencmode: disable
 
+preview:
+  primary:
+    adapter: postgresql
+    url: <%= ENV["DATABASE_URL"] %>
+    prepared_statements: false
+    pool: 10
+
 staging:
   primary:
     <<: *default

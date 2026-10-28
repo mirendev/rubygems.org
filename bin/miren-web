@@ -1,0 +1,22 @@
+#!/bin/sh
+set -eu
+
+# This must also run for ephemeral versions: deploy tasks don't run for previews.
+# db:prepare loads the schema on a fresh database and migrates an existing one.
+bin/rails db:prepare
+bin/rails runner '
+  require "timeout"
+  Timeout.timeout(180) do
+    loop do
+      begin
+        break if Searchkick.client.ping
+      rescue Faraday::ConnectionFailed
+        # The search service may still be starting on the first deployment.
+      end
+      sleep 2
+    end
+  end
+  Rubygem.reindex unless Rubygem.search_index.exists?
+'
+
+exec bundle exec puma -C config/puma.rb
