@@ -212,6 +212,7 @@ nl:
       access_webhooks:
       show_dashboard:
       configure_trusted_publishers:
+      access_oidc_api_key_roles:
       reset:
       save_key:
       mfa:
@@ -1212,6 +1213,7 @@ nl:
     label:
     placeholder:
     clear:
+    apply:
     all:
       one:
       other:
@@ -1250,6 +1252,10 @@ nl:
         owner_removed_owner_html:
         owner_removed_by_html:
         owner_confirmed:
+      organization:
+        organization_added:
+        organization_added_organization_html:
+        organization_added_by_html:
     user_event:
       user:
         created:

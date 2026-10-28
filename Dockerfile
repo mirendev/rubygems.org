@@ -1,15 +1,16 @@
-# syntax = docker/dockerfile:1.10
+# syntax = docker/dockerfile:1.28.0
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
-ARG RUBY_VERSION=4.0.6
-ARG ALPINE_VERSION=3.23
+ARG RUBY_VERSION=4.0.9
+ARG ALPINE_VERSION=3.24
 FROM ruby:$RUBY_VERSION-alpine${ALPINE_VERSION} AS base
 
 # Install packages
 RUN --mount=type=cache,id=dev-apk-cache,sharing=locked,target=/var/cache/apk \
   --mount=type=cache,id=dev-apk-lib,sharing=locked,target=/var/lib/apk \
-  apk add \
-  ca-certificates \
+  apk add --update-cache --upgrade \
+  'ca-certificates>=20261020-r0' \
+  'ca-certificates-bundle>=20261020-r0' \
   bash \
   tzdata \
   xz-libs \

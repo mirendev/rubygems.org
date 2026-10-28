@@ -217,6 +217,7 @@ en:
       access_webhooks: Access webhooks
       show_dashboard: Show dashboard
       configure_trusted_publishers: Configure trusted publishers
+      access_oidc_api_key_roles: Access OIDC API key roles
       reset: Reset
       save_key: "Note that we won't be able to show the key to you again. New API key:"
       mfa: MFA
@@ -1231,6 +1232,7 @@ en:
     label: Filter by gem name
     placeholder: Filter by gem name…
     clear: Clear filter
+    apply: Apply filter
     all:
       one: "%{count} gem"
       other: "%{count} gems"
@@ -1269,6 +1271,10 @@ en:
         owner_removed_owner_html: "Owner removed: %{owner}"
         owner_removed_by_html: "Removed by: %{remover}"
         owner_confirmed: "Owner Confirmed"
+      organization:
+        organization_added: "Added to Organization"
+        organization_added_organization_html: "Organization: %{organization}"
+        organization_added_by_html: "Added by: %{user}"
     user_event:
       user:
         created: "User Created"
